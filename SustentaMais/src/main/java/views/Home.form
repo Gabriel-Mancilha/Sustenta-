@@ -246,6 +246,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ver Hor&#xe1;rios de Coleta"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -318,6 +321,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Fazer denuncia"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFazerDenunciasActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -548,7 +554,7 @@
                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                   <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
-                  <Component id="btnServicos" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnHome" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                   <Component id="btnDenuncias" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
@@ -570,7 +576,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnServicos" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnHome" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnDenuncias" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnReciclagem" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnClassificacao" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -583,11 +589,14 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="btnServicos">
+        <Component class="javax.swing.JButton" name="btnHome">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Servi&#xe7;os"/>
+            <Property name="text" type="java.lang.String" value="Home"/>
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHomeActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnDenuncias">
           <Properties>

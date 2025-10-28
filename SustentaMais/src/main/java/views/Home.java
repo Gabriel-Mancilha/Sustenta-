@@ -53,7 +53,7 @@ public class Home extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        btnServicos = new javax.swing.JButton();
+        btnHome = new javax.swing.JButton();
         btnDenuncias = new javax.swing.JButton();
         btnReciclagem = new javax.swing.JButton();
         btnClassificacao = new javax.swing.JButton();
@@ -95,6 +95,11 @@ public class Home extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Ver Horários de Coleta");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -159,6 +164,11 @@ public class Home extends javax.swing.JFrame {
 
         btnFazerDenuncias.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnFazerDenuncias.setText("Fazer denuncia");
+        btnFazerDenuncias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFazerDenunciasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -370,8 +380,13 @@ public class Home extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnServicos.setText("Serviços");
-        btnServicos.setBorderPainted(false);
+        btnHome.setText("Home");
+        btnHome.setBorderPainted(false);
+        btnHome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHomeActionPerformed(evt);
+            }
+        });
 
         btnDenuncias.setText("Denuncias");
         btnDenuncias.setBorderPainted(false);
@@ -411,7 +426,7 @@ public class Home extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(117, 117, 117)
-                .addComponent(btnServicos)
+                .addComponent(btnHome)
                 .addGap(35, 35, 35)
                 .addComponent(btnDenuncias)
                 .addGap(37, 37, 37)
@@ -430,7 +445,7 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnServicos)
+                            .addComponent(btnHome)
                             .addComponent(btnDenuncias)
                             .addComponent(btnReciclagem)
                             .addComponent(btnClassificacao))))
@@ -456,7 +471,8 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDenunciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDenunciasActionPerformed
-        // TODO add your handling code here:
+       new Denuncia().setVisible(true); // abre a tela Denuncias
+       dispose(); // fecha a tela atual (Home)
     }//GEN-LAST:event_btnDenunciasActionPerformed
 
     private void btnClassificacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClassificacaoActionPerformed
@@ -466,6 +482,20 @@ public class Home extends javax.swing.JFrame {
     private void btnVerClassificacaoCompletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerClassificacaoCompletaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnVerClassificacaoCompletaActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        new DiasDeColeta().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void btnFazerDenunciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFazerDenunciasActionPerformed
+        new Denuncia().setVisible(true); // abre a tela Denuncias
+       dispose(); // fecha a tela atual (Home)
+    }//GEN-LAST:event_btnFazerDenunciasActionPerformed
+
+    private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnHomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -507,8 +537,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnColetaDeReciclagem;
     private javax.swing.JButton btnDenuncias;
     private javax.swing.JButton btnFazerDenuncias;
+    private javax.swing.JButton btnHome;
     private javax.swing.JButton btnReciclagem;
-    private javax.swing.JButton btnServicos;
     private javax.swing.JButton btnVerClassificacaoCompleta;
     private javax.swing.JButton btnVerEstatisticas;
     private javax.swing.JComboBox<String> cboBairros;

@@ -476,7 +476,8 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDenunciasActionPerformed
 
     private void btnClassificacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClassificacaoActionPerformed
-        // TODO add your handling code here:
+        new Classificacao().setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnClassificacaoActionPerformed
 
     private void btnVerClassificacaoCompletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerClassificacaoCompletaActionPerformed

@@ -146,7 +146,7 @@ public class Denuncia extends javax.swing.JFrame {
         jLabel4.setText("Localização especifica:");
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(null));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/camera.png"))); // NOI18N
 

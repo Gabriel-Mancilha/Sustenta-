@@ -5,8 +5,10 @@ views\Denuncia$1.class
 views\Classificacao$1.class
 views\DiasDeColeta$3.class
 views\Classificacao.class
+ConexaoBanco\Conexao.class
 views\Denuncia$4.class
 views\Home$2.class
+views\Home$7.class
 views\Denuncia$2.class
 views\Home$4.class
 views\DiasDeColeta.class
@@ -17,6 +19,7 @@ views\DiasDeColeta$4.class
 views\Denuncia.class
 views\Classificacao$2.class
 views\Home$1.class
+views\Home$8.class
 views\Home$3.class
 views\Home$6.class
 views\Home.class

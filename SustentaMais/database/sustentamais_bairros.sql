@@ -3,6 +3,7 @@
 -- Host: 127.0.0.1    Database: sustentamais
 -- ------------------------------------------------------
 -- Server version	8.0.43
+USE sustentamais;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;

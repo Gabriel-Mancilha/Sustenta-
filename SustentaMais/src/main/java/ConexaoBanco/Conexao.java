@@ -8,9 +8,9 @@ public class Conexao {
 
     // URL do banco
     private static final String URL = "jdbc:mysql://localhost:3306/sustentamais";
-    private static final String USER = "root";   // seu usuário do MySQL
-    private static final String PASS = "root";       // senha (em branco, se você deixou)
-
+    private static final String USER = "root"; 
+    private static final String PASS = "";
+    
     // Método para pegar a conexão
     public static Connection getConnection() {
         try {

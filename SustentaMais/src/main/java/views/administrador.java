@@ -17,25 +17,57 @@ public class administrador extends javax.swing.JFrame {
     public administrador() {
         initComponents();
         carregarTabela();
+        carregarBairrosCombo();
     }
+    
+    private void carregarBairrosCombo() {
+    Connection con = Conexao.getConnection();
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
+    try {
+        String sql = "SELECT nome_bairro FROM bairros ORDER BY nome_bairro";
+        stmt = con.prepareStatement(sql);
+        rs = stmt.executeQuery();
+
+        jcboxSelecionarBairros.removeAllItems(); // Limpa
+        while (rs.next()) {
+            jcboxSelecionarBairros.addItem(rs.getString("nome_bairro"));
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Erro ao carregar bairros: " + ex.getMessage());
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+            if (con != null) con.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+
+    
     private void carregarTabela() {
     DefaultTableModel model = (DefaultTableModel) tblBairros.getModel();
-    model.setRowCount(0); // Limpa a tabela
+    model.setRowCount(0);
 
     Connection con = Conexao.getConnection();
     PreparedStatement stmt = null;
     ResultSet rs = null;
 
     try {
-        String sql = "SELECT b.nome_bairro, COALESCE(r.quantidade_kg, 0) AS quantidade " +
+        String sql = "SELECT b.id_bairro, b.nome_bairro, COALESCE(r.quantidade_kg, 0) AS quantidade " +
                      "FROM bairros b LEFT JOIN residuos_reciclados r " +
-                     "ON b.id_bairro = r.id_bairro";
+                     "ON b.id_bairro = r.id_bairro ORDER BY nome_bairro";
 
         stmt = con.prepareStatement(sql);
         rs = stmt.executeQuery();
 
         while (rs.next()) {
             model.addRow(new Object[]{
+                rs.getInt("id_bairro"),
                 rs.getString("nome_bairro"),
                 rs.getInt("quantidade")
             });
@@ -56,6 +88,7 @@ public class administrador extends javax.swing.JFrame {
 
 
 
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -70,16 +103,22 @@ public class administrador extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblBairros = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
         quantidade = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
         btnAplicarAlteracao = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jcboxSelecionarBairros = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        adicionarBairro = new javax.swing.JTextField();
+        CriarBairro = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        SelecionarServico = new javax.swing.JComboBox<>();
+        jcboxDiasSemana = new javax.swing.JComboBox<>();
+        jcboxPeriodo = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        btnAdicionarBairros = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -134,7 +173,7 @@ public class administrador extends javax.swing.JFrame {
                 .addComponent(btnReciclagem)
                 .addGap(35, 35, 35)
                 .addComponent(btnClassificacao)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,20 +195,17 @@ public class administrador extends javax.swing.JFrame {
 
         tblBairros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Bairros", "Qtn Reciclagem"
+                "ID", "Bairros", "Quantidade"
             }
         ));
         jScrollPane1.setViewportView(tblBairros);
 
-        jLabel3.setText("Bairros:");
-
-        jLabel4.setText("Quantidade de Reciclagem:");
+        jLabel4.setText("Quantidade atual:");
 
         btnAplicarAlteracao.setText("Aplicar");
         btnAplicarAlteracao.addActionListener(new java.awt.event.ActionListener() {
@@ -178,51 +214,62 @@ public class administrador extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setText("Bairros:");
+
+        jcboxSelecionarBairros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcboxSelecionarBairros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcboxSelecionarBairrosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel3)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(9, 9, 9)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(61, Short.MAX_VALUE)
                 .addComponent(btnAplicarAlteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 99, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 182, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcboxSelecionarBairros, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(39, 39, 39))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(8, 8, 8)
-                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcboxSelecionarBairros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(49, 49, 49)
                 .addComponent(btnAplicarAlteracao)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -232,57 +279,109 @@ public class administrador extends javax.swing.JFrame {
 
         jLabel5.setText("Adiconar bairros");
 
-        adicionarBairro.setText("Bairro");
+        CriarBairro.setText("Bairro");
 
         jLabel6.setText("Adicionar dias de coleta:");
 
         jLabel7.setText("Tipo de Serviço");
+
+        SelecionarServico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Reciclagem", "Lixo", "Óleo", " " }));
+        SelecionarServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SelecionarServicoActionPerformed(evt);
+            }
+        });
+
+        jcboxDiasSemana.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jcboxPeriodo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "manhã ", "tarde", "noite" }));
+        jcboxPeriodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcboxPeriodoActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("jLabel3");
+
+        btnAdicionarBairros.setText("Adicionar");
+        btnAdicionarBairros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarBairrosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel2)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(adicionarBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(238, Short.MAX_VALUE))
+                    .addComponent(jcboxDiasSemana, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(SelecionarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel7)
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addGap(6, 6, 6)
+                                            .addComponent(CriarBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(22, 22, 22)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jcboxPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addGap(89, 89, 89)
+                                    .addComponent(btnAdicionarBairros))))))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CriarBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(adicionarBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
                 .addComponent(jLabel7)
-                .addGap(49, 49, 49)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SelecionarServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jcboxDiasSemana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jcboxPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAdicionarBairros)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,7 +391,7 @@ public class administrador extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -319,33 +418,62 @@ public class administrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnAplicarAlteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarAlteracaoActionPerformed
-       int selectedRow = tblBairros.getSelectedRow();
-    if (selectedRow == -1) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Selecione um bairro na tabela!");
+       String bairroSelecionado = (String) jcboxSelecionarBairros.getSelectedItem();
+    int quantidadeNova = (int) quantidade.getValue();
+
+    if (bairroSelecionado == null) {
+        JOptionPane.showMessageDialog(null, "Selecione um bairro!");
         return;
     }
 
-    int id = (int) tblBairros.getValueAt(selectedRow, 0);
-    double novaQnt = (double) quantidade.getValue();
+    try (Connection con = Conexao.getConnection()) {
 
-    String sql = "UPDATE residuos_reciclados SET quantidade_reciclagem = ? WHERE id_bairro = ?";
+        // 1 - buscar ID do bairro
+        String sqlID = "SELECT id_bairro FROM bairros WHERE nome_bairro = ?";
+        PreparedStatement psID = con.prepareStatement(sqlID);
+        psID.setString(1, bairroSelecionado);
+        ResultSet rs = psID.executeQuery();
 
-    try (Connection con = Conexao.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql)) {
+        if (!rs.next()) {
+            JOptionPane.showMessageDialog(null, "Erro: Bairro não encontrado!");
+            return;
+        }
 
-        ps.setDouble(1, novaQnt);
-        ps.setInt(2, id);
+        int id = rs.getInt("id_bairro");
 
+        // 2 - Atualizar ou inserir
+        String sqlUpsert = "INSERT INTO residuos_reciclados (id_bairro, quantidade_kg) VALUES (?, ?) " +
+                            "ON DUPLICATE KEY UPDATE quantidade_kg = ?";
+        PreparedStatement ps = con.prepareStatement(sqlUpsert);
+        ps.setInt(1, id);
+        ps.setInt(2, quantidadeNova);
+        ps.setInt(3, quantidadeNova);
         ps.executeUpdate();
-        javax.swing.JOptionPane.showMessageDialog(this, "Quantidade atualizada com sucesso!");
 
+        JOptionPane.showMessageDialog(null, "Quantidade registrada com sucesso!");
         carregarTabela();
 
     } catch (SQLException e) {
         e.printStackTrace();
-        javax.swing.JOptionPane.showMessageDialog(this, "Erro ao atualizar: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Erro ao atualizar: " + e.getMessage());
     }
     }//GEN-LAST:event_btnAplicarAlteracaoActionPerformed
+
+    private void jcboxSelecionarBairrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcboxSelecionarBairrosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcboxSelecionarBairrosActionPerformed
+
+    private void SelecionarServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelecionarServicoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SelecionarServicoActionPerformed
+
+    private void btnAdicionarBairrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarBairrosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAdicionarBairrosActionPerformed
+
+    private void jcboxPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcboxPeriodoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcboxPeriodoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -373,7 +501,9 @@ public class administrador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField adicionarBairro;
+    private javax.swing.JTextField CriarBairro;
+    private javax.swing.JComboBox<String> SelecionarServico;
+    private javax.swing.JButton btnAdicionarBairros;
     private javax.swing.JButton btnAplicarAlteracao;
     private javax.swing.JButton btnClassificacao;
     private javax.swing.JButton btnDenuncias;
@@ -387,10 +517,14 @@ public class administrador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> jcboxDiasSemana;
+    private javax.swing.JComboBox<String> jcboxPeriodo;
+    private javax.swing.JComboBox<String> jcboxSelecionarBairros;
     private javax.swing.JSpinner quantidade;
     private javax.swing.JTable tblBairros;
     // End of variables declaration//GEN-END:variables

@@ -99,9 +99,7 @@ public class login extends javax.swing.JFrame {
     String senha = new String(txtSenha.getText());
 
     if (login.equals("123") && senha.equals("123")) {
-        JOptionPane.showMessageDialog(this, "Login autorizado!");
-
-        // Abrir a interface Administrador
+        // Abrir administrador
         administrador admin = new administrador();
         admin.setVisible(true);   
 
